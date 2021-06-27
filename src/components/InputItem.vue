@@ -4,11 +4,14 @@
             <slot name="labeltitle"></slot>
         </label>
         <div class="relative input-number" v-if="this.inputType === 'number'">
-            <input type="tel" class="form-control" id="childrennumber" @input="inputValidation" ref="refInput" :value="counter">
+            <input type="tel" class="form-control" id="childrennumber" @input="inputValidation" ref="refInput" :value="counter" :disabled="!disabled">
             <div class="input-item__control">
-                <button class="input-item__up" @click="funcCounter(inputVal += 1)"></button>
-                <button class="input-item__down" @click="funcCounter(inputVal -= 1)"></button>
+                <button class="input-item__up" @click="funcCounter(inputVal += 1)" :disabled="!disabled"></button>
+                <button class="input-item__down" @click="funcCounter(inputVal -= 1)" :disabled="!disabled"></button>
             </div>
+        </div>
+        <div class="input-item__err" v-if="!error && !disabled && errorMsg">
+            {{ errorMsg }}
         </div>
         <input type="date" class="form-control" :id="this.for" v-if="this.inputType === 'date'" @change="inputValidation" :value="inputDate">
     </div>
@@ -38,7 +41,19 @@ export default {
             type: Number,
             default: 10
         },
-        value: {}
+        value: {},
+        disabled: {
+            type: Boolean,
+            default: true
+        },
+        error: {
+            type: Boolean
+        },
+        errorMsg: {
+            type: String,
+            default: ''
+        },
+        propsInputVal: {}
     },
     data () {
         return {
@@ -60,7 +75,6 @@ export default {
                     }
                     case 'date': {
                         const x = e.target.value
-                        console.log(x)
                         if (x.length === 10) {
                             this.$emit('input', x)
                             this.inputDate = x
@@ -76,10 +90,10 @@ export default {
         numberValidation (number) {
             if (number < 0) {
                 this.inputVal = 0
-            } else if (number.toString().length > this.maxLength) {
-                this.inputVal -= 1
             } else if (number > this.max) {
                 this.inputVal = this.max
+            } else if (number.toString().length > this.maxLength) {
+                this.inputVal -= 1
             }
 
             this.$emit('input', this.inputVal)
@@ -95,7 +109,6 @@ export default {
     },
     watch: {
         getForm () {
-            console.log('...')
             this.$emit('input', 0)
         }
     }
@@ -107,6 +120,12 @@ export default {
         width: 25%;
         border-right: 1px solid #2f3a3f;
         padding: 15px;
+
+        &__err {
+            font-size: 12px;
+            margin-top: 10px;
+            color: red
+        }
 
         &__label {
             font-weight: 600;
@@ -133,6 +152,11 @@ export default {
             height: 50%;
             cursor: pointer;
             position: relative;
+
+            &:disabled {
+                opacity: .7;
+                cursor: no-drop;
+            }
         }
 
         &__up {
@@ -173,5 +197,32 @@ export default {
         height: 30px;
         padding: 5px;
         width: 100%;
+
+        &:disabled {
+            opacity: .7;
+            cursor: no-drop;
+        }
+    }
+
+    @media (max-width: 820px) {
+        .input-item {
+            width: 50%;
+            border-bottom: 1px solid #2f3a3f;
+
+            &:nth-child(2) {
+                border-right: 0;
+            }
+
+            &:nth-child(3), &:nth-child(4) {
+                border-bottom: 0;
+            }
+        }
+    }
+
+    @media (max-width: 475px) {
+        .input-item {
+            width: 100%;
+            border-right: 0;
+        }
     }
 </style>

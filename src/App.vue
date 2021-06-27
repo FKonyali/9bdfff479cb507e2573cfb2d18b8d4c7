@@ -1,23 +1,10 @@
 <template>
     <div id="app">
-        <Header />
+        <Header/>
         <div class="wrapper">
             <div class="container">
-                <Progressbar/>
+                <Progressbar v-if="getPageStatus.name !== 'result'" />
                 <router-view />
-                <div class="form-submit" :class="{ 'justify-flex-end' : getPageStatus.name == 'choiceOtel' }">
-                    <button class="form-submit__btn" @click="goBack" v-if="getPageStatus.name !== 'choiceOtel'">
-                        Geri
-                    </button>
-                    <button class="form-submit__btn" @click="formSubmit"
-                    :disabled="(getForm.start_date == '' ||
-                        getForm.end_date == '' ||
-                        getForm.adult == 0 ||
-                        getForm.hotel.hotel_id == '' ||
-                        getForm.hotel.hotel_name == '')">
-                        {{ getPageStatus.name == 'payment' ? 'Ödeme Yap ve Bitir' : 'Kaydet ve Devam Et' }}
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -32,18 +19,6 @@ export default {
         components: {
         Header,
         Progressbar
-    },
-    methods: {
-        formSubmit () {
-            if (this.getPageStatus.name === 'choiceOtel') {
-                this.$router.push('/select-room')
-            } else if (this.getPageStatus.name === 'choiceRoom') {
-                this.$router.push('/payment')
-            }
-        },
-        goBack () {
-            this.$router.back()
-        }
     },
     computed: {
         getForm () {
@@ -101,31 +76,6 @@ export default {
 
     .wrapper {
         margin: 120px 0 0;
-    }
-
-    .form-submit {
-        background: #f1f1f1;
-        padding: 30px;
-        border-radius: 10px;
-        display: flex;
-        justify-content: space-between;
-
-        &__btn {
-            background: #063662;
-            color: #FFF;
-            border-radius: 5px;
-            padding: 10px 15px;
-            font-size: 16px;
-
-            &:disabled {
-                opacity: .7;
-                cursor: no-drop;
-            }
-        }
-    }
-
-    .justify-flex-end {
-        justify-content: flex-end;
     }
 
     ul {

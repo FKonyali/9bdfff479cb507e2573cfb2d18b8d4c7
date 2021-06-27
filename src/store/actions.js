@@ -51,7 +51,7 @@ export default {
             ...context.getters.getHotelDetail,
             status: 'PENDING'
         })
-        fetch(`${apiRootUrl}/tkn/hotel-details/${context.getters.getForm.hotel.hotel_id}`, requestOptions)
+        fetch(`${apiRootUrl}/tkn/hotel-details/`, requestOptions)
             .then(response => {
                 ReqStatus = response.status
                 return response.json()
@@ -68,7 +68,11 @@ export default {
                         ...context.getters.getForm,
                         hotel: {
                             ...context.getters.getForm.hotel,
-                            city: result.city
+                            city: result[0].city,
+                            price: result[0].room_type[0].price,
+                            room_type: result[0].room_type[0].title,
+                            price_rate: result[0].room_scenic[0].price_rate,
+                            room_scenic: result[0].room_scenic[0].title
                         }
                     })
                 } else {

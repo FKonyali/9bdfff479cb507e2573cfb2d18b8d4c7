@@ -27,6 +27,9 @@
                     for="adultnumber"
                     inputType="number"
                     v-model="getForm.adult"
+                    value="1"
+                    :max="getForm.hotel.max_adult_size"
+                    :min="0"
                 >
                     <template v-slot:labeltitle>
                         Yetişkin Sayısı
@@ -35,9 +38,12 @@
                 <InputItem
                     for="childrennumber"
                     inputType="number"
-                    :max="15"
-                    :maxLength="2"
+                    :max="5"
+                    :min="0"
                     v-model="getForm.child"
+                    :error="getForm.hotel.child_status"
+                    errorMsg="Çocuk ziyaretçi kabul edilmiyor!"
+                    :disabled="getForm.hotel.child_status"
                 >
                     <template v-slot:labeltitle>
                         Çocuk Sayısı
@@ -45,24 +51,41 @@
                 </InputItem>
             </div>
         </div>
+        <BottomNavigation
+            class="justify-flex-end"
+            :backBtnHide="true" btnText="Kaydet ve Devam Et"
+            :getForm="getForm"
+            goPath="/select-room"
+            :btnDisabled="(getForm.start_date == '' ||
+                getForm.end_date == '' ||
+                getForm.adult == 0 ||
+                getForm.hotel.hotel_id == '' ||
+                getForm.hotel.hotel_name == '')"
+        />
     </div>
 </template>
 
 <script>
 import SelectBox from '@/components/SelectBox.vue'
 import InputItem from '@/components/InputItem.vue'
+import BottomNavigation from '@/components/BottomNavigation.vue'
 
 export default {
     name: 'Home',
     components: {
         SelectBox,
-        InputItem
+        InputItem,
+        BottomNavigation
     },
     created () {
         this.$store.commit('updatePageStatus', {
             name: 'choiceOtel',
             status: 'LOADED'
         })
+
+        if (!this.getHotelDetail) {
+            this.$store.dispatch('hotelDetail')
+        }
     },
     computed: {
         getForm () {

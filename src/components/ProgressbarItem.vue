@@ -93,4 +93,21 @@ export default {
             max-width: 100%;
         }
     }
+
+    @media (max-width: 820px) {
+        .progressbar {
+            &__item {
+                width: 100%;
+                margin-bottom: 30px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
 </style>

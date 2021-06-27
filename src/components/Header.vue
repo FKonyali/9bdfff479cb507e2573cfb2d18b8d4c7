@@ -32,6 +32,10 @@ export default {
                     hotel_name: ''
                 }
             })
+
+            if (this.$router.currentRoute.path !== '/') {
+                this.$router.push('/')
+            }
         }
     }
 }

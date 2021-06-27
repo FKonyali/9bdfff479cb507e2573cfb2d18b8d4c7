@@ -16,7 +16,7 @@
                         />
                     </svg>
                 </button>
-                <input class="select-box__input" type="text" placeholder="Rezervasyon yapmak istediğiniz oteli seçiniz." v-on:focus="focusSelect()" v-model="searchFilterInput" @input="searchInput">
+                <input class="select-box__input" type="text" :placeholder="getForm.hotel && getForm.hotel.hotel_name ? `${getForm.hotel.hotel_name} Seçili`: 'Rezervasyon yapmak istediğiniz oteli seçiniz.'" v-on:focus="focusSelect()" v-model="searchFilterInput" @input="searchInput">
             </div>
             <div class="select-box__arrow-container" @click="toggleSelect()">
                 <div class="select-box__arrow"></div>
@@ -60,6 +60,28 @@ export default {
                 hotel_id: e.target.value,
                 hotel_name: a
             })
+            e.target.value = ''
+            this.searchInput(e)
+            this.toggle = false
+
+            if (this.getForm.hotel.hotel_id) {
+                const filter = this.getHotelDetail.detail.filter(a => a.hotel_id === this.getForm.hotel.hotel_id * 1)
+                this.$store.commit('updateForm', {
+                    ...this.getForm,
+                    hotel: {
+                        ...this.getForm.hotel,
+                        child_status: filter[0].child_status,
+                        max_adult_size: filter[0].max_adult_size
+                    }
+                })
+            }
+
+            if (this.getForm.adult > this.getForm.hotel.max_adult_size) {
+                this.$store.commit('updateForm', {
+                    ...this.getForm,
+                    adult: this.getForm.hotel.max_adult_size
+                })
+            }
         },
         toLowerCase (string) {
             const letters = { İ: 'i', I: 'i', Ş: 'ş', Ğ: 'ğ', Ü: 'ü', Ö: 'ö', Ç: 'ç' }
@@ -93,6 +115,12 @@ export default {
                 filter: filterArr
             })
             return filterArr
+        },
+        getForm () {
+            return this.$store.getters.getForm
+        },
+        getHotelDetail () {
+            return this.$store.getters.getHotelDetail
         }
     },
     directives: {

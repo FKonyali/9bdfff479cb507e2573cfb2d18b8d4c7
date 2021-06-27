@@ -19,6 +19,11 @@ component: () => import('../views/SelectRoom.vue')
 path: '/payment',
 name: 'Payment',
 component: () => import('../views/Payment.vue')
+},
+{
+path: '/result',
+name: 'Result',
+component: () => import('../views/Result.vue')
 }
 ]
 
