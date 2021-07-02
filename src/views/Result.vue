@@ -181,6 +181,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         &__btn {
@@ -189,7 +190,7 @@ export default {
             border-radius: 5px;
             padding: 10px 15px;
             font-size: 16px;
-            margin-right: 10px;
+            margin: 0 10px 10px;
 
             &:last-child {
                 margin-right: 0;
