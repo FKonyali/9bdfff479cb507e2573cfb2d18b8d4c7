@@ -48,7 +48,7 @@ export default {
 <style lang="scss" scoped>
     .bottom-nav {
         background: #f1f1f1;
-        padding: 30px 30px 10px;
+        padding: 30px;
         border-radius: 10px;
         display: flex;
         justify-content: space-between;

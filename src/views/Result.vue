@@ -143,6 +143,15 @@ export default {
                 this.resetRezervation()
             }
         }
+    },
+    watch: {
+        getForm: {
+            handler (val) {
+                localStorage.setItem('form', JSON.stringify(val))
+                this.$store.commit('updateForm', val)
+            },
+            deep: true
+        }
     }
 }
 </script>

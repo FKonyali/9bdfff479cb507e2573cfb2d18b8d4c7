@@ -7,7 +7,7 @@
                     for="checkin"
                     inputType="date"
                     v-model="getForm.start_date"
-                    :max="10"
+                    :min="getForm.start_date"
                 >
                     <template v-slot:labeltitle>
                         Giriş Tarihi
@@ -17,7 +17,7 @@
                     for="checkout"
                     inputType="date"
                     v-model="getForm.end_date"
-                    :max="10"
+                    :min="addDays(getForm.start_date, 1)"
                 >
                     <template v-slot:labeltitle>
                         Çıkış Tarihi
@@ -28,7 +28,7 @@
                     inputType="number"
                     v-model="getForm.adult"
                     value="1"
-                    :max="getForm.hotel.max_adult_size"
+                    :max="getForm.hotel.max_adult_size || 5"
                     :min="0"
                 >
                     <template v-slot:labeltitle>
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import addDays from '@/helpers/addDays.js'
 import SelectBox from '@/components/SelectBox.vue'
 import InputItem from '@/components/InputItem.vue'
 import BottomNavigation from '@/components/BottomNavigation.vue'
@@ -86,6 +87,9 @@ export default {
         if (!this.getHotelDetail) {
             this.$store.dispatch('hotelDetail')
         }
+    },
+    methods: {
+        addDays
     },
     computed: {
         getForm () {

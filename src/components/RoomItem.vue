@@ -60,7 +60,6 @@ export default {
             })
         },
         changeRoomScenic (e, roomDetailObj) {
-            console.log(roomDetailObj)
             this.$store.commit('updateForm', {
                 ...this.getForm,
                 hotel: {

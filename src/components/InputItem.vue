@@ -4,7 +4,7 @@
             <slot name="labeltitle"></slot>
         </label>
         <div class="relative input-number" v-if="this.inputType === 'number'">
-            <input type="tel" class="form-control" id="childrennumber" @input="inputValidation" ref="refInput" :value="counter" :disabled="!disabled">
+            <input type="tel" class="form-control" id="childrennumber" @input="inputValidation" ref="refInput" :value="this.value" :disabled="!disabled">
             <div class="input-item__control">
                 <button class="input-item__up" @click="funcCounter(inputVal += 1)" :disabled="!disabled"></button>
                 <button class="input-item__down" @click="funcCounter(inputVal -= 1)" :disabled="!disabled"></button>
@@ -13,7 +13,7 @@
         <div class="input-item__err" v-if="!error && !disabled && errorMsg">
             {{ errorMsg }}
         </div>
-        <input type="date" class="form-control" :id="this.for" v-if="this.inputType === 'date'" @change="inputValidation" :value="inputDate">
+        <input type="date" class="form-control" :id="this.for" v-if="this.inputType === 'date'" @change="inputValidation" :value="inputDate" :min="min">
     </div>
 </template>
 
@@ -53,7 +53,8 @@ export default {
             type: String,
             default: ''
         },
-        propsInputVal: {}
+        propsInputVal: {},
+        min: {}
     },
     data () {
         return {
@@ -106,12 +107,12 @@ export default {
         getForm () {
             return this.$store.getters.getForm
         }
-    },
-    watch: {
-        getForm () {
-            this.$emit('input', 0)
-        }
     }
+    // watch: {
+    //     getForm () {
+    //         this.$emit('input', 0)
+    //     }
+    // }
 }
 </script>
 

@@ -63,18 +63,6 @@ export default {
                         status: 'SUCCESS',
                         detail: result
                     })
-
-                    context.commit('updateForm', {
-                        ...context.getters.getForm,
-                        hotel: {
-                            ...context.getters.getForm.hotel,
-                            city: result[0].city,
-                            price: result[0].room_type[0].price,
-                            room_type: result[0].room_type[0].title,
-                            price_rate: result[0].room_scenic[0].price_rate,
-                            room_scenic: result[0].room_scenic[0].title
-                        }
-                    })
                 } else {
                     context.commit('updateHotelDetail', {
                         ...context.getters.getHotelDetail,

@@ -64,17 +64,18 @@ export default {
             this.searchInput(e)
             this.toggle = false
 
-            if (this.getForm.hotel.hotel_id) {
-                const filter = this.getHotelDetail.detail.filter(a => a.hotel_id === this.getForm.hotel.hotel_id * 1)
+            // if (this.getForm.hotel.hotel_id) {
+                const filter = this.getHotelDetail.detail.filter(a => a.hotel_id == this.getForm.hotel.hotel_id)
                 this.$store.commit('updateForm', {
                     ...this.getForm,
                     hotel: {
                         ...this.getForm.hotel,
                         child_status: filter[0].child_status,
-                        max_adult_size: filter[0].max_adult_size
+                        max_adult_size: filter[0].max_adult_size,
+                        city: filter[0].city
                     }
                 })
-            }
+            // }
 
             if (this.getForm.adult > this.getForm.hotel.max_adult_size) {
                 this.$store.commit('updateForm', {
